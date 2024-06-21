@@ -45,7 +45,7 @@ DECLARE_GLOBAL_DATA_PTR;
 #define ZYNQ_QSPI_TXD_00_01_OFFSET	0x80	/* Transmit 1-byte inst */
 #define ZYNQ_QSPI_TXD_00_10_OFFSET	0x84	/* Transmit 2-byte inst */
 #define ZYNQ_QSPI_TXD_00_11_OFFSET	0x88	/* Transmit 3-byte inst */
-#define ZYNQ_QSPI_FR_QOUT_CODE		0x6B    /* read instruction code */
+#define ZYNQ_QSPI_FR_QOUT_CODE		0x6C    /* read instruction code */
 
 #define QSPI_SELECT_LOWER_CS            BIT(0)
 #define QSPI_SELECT_UPPER_CS            BIT(1)
