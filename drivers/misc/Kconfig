@@ -74,6 +74,14 @@ config ATSHA204A
 	   Enable support for I2C connected Atmel's ATSHA204A
 	   CryptoAuthentication module found for example on the Turris Omnia
 	   board.
+	   
+config ENCLUSTRA_EEPROM_MAC
+	bool "Configure Enclustra MAC address"
+	depends on MISC
+	select ATSHA204A
+	help
+	  Reads the MAC address out of the EEPROM and configures the MAC
+	  Addresses in the environment.	   
 
 config GATEWORKS_SC
 	bool "Gateworks System Controller Support"
@@ -84,7 +92,7 @@ config GATEWORKS_SC
 	  voltage ADCs, and EEPROM.
 
 config ROCKCHIP_EFUSE
-        bool "Rockchip e-fuse support"
+    bool "Rockchip e-fuse support"
 	depends on MISC
 	help
 	  Enable (read-only) access for the e-fuse block found in Rockchip
