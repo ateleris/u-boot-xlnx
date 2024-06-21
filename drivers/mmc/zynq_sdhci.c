@@ -102,6 +102,7 @@ struct arasan_sdhci_priv {
 	u32 node_id;
 	u8 bank;
 	u8 no_1p8;
+	u8 is_emmc;
 	bool internal_phy_reg;
 	struct reset_ctl_bulk resets;
 };
@@ -1135,6 +1136,11 @@ static int arasan_sdhci_probe(struct udevice *dev)
 	host->quirks |= SDHCI_QUIRK_BROKEN_HISPD_MODE;
 #endif
 
+	if (priv->is_emmc)
+		host->quirks |= SDHCI_QUIRK_EMMC_INIT;
+
+	host->version = sdhci_readw(host, SDHCI_HOST_VERSION);
+
 	if (priv->no_1p8)
 		host->quirks |= SDHCI_QUIRK_NO_1_8_V;
 
@@ -1142,7 +1148,7 @@ static int arasan_sdhci_probe(struct udevice *dev)
 	    device_is_compatible(dev, "xlnx,versal-net-emmc"))
 		host->quirks |= SDHCI_QUIRK_CAPS_BIT63_FOR_HS400;
 
-	plat->cfg.f_max = CONFIG_ZYNQ_SDHCI_MAX_FREQ;
+	plat->cfg.f_max = dev_read_u32_default(dev, "max-frequency", CONFIG_ZYNQ_SDHCI_MAX_FREQ);
 
 	ret = mmc_of_parse(dev, &plat->cfg);
 	if (ret)
@@ -1193,6 +1199,7 @@ static int arasan_sdhci_of_to_plat(struct udevice *dev)
 		return -1;
 
 	priv->host->name = dev->name;
+	priv->is_emmc = fdt_get_property(gd->fdt_blob, dev_of_offset(dev), "is_emmc", NULL) ? 1 : 0;
 
 #if defined(CONFIG_ARCH_ZYNQMP) || defined(CONFIG_ARCH_VERSAL) || defined(CONFIG_ARCH_VERSAL_NET)
 	priv->host->ops = &arasan_ops;
@@ -1203,7 +1210,7 @@ static int arasan_sdhci_of_to_plat(struct udevice *dev)
 	if (!priv->host->ioaddr)
 		return -EINVAL;
 
-	priv->bank = dev_read_u32_default(dev, "xlnx,mio-bank", 0);
+	priv->bank = dev_read_u32_default(dev, "xlnx,mio-bank", -1);
 	priv->no_1p8 = dev_read_bool(dev, "no-1-8-v");
 
 	priv->node_id = 0;

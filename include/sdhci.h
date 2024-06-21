@@ -249,6 +249,7 @@
 #define SDHCI_QUIRK_USE_WIDE8		(1 << 8)
 #define SDHCI_QUIRK_NO_1_8_V		(1 << 9)
 #define SDHCI_QUIRK_SUPPORT_SINGLE	(1 << 10)
+#define SDHCI_QUIRK_EMMC_INIT		(1 << 11)
 /* Capability register bit-63 indicates HS400 support */
 #define SDHCI_QUIRK_CAPS_BIT63_FOR_HS400	BIT(11)
 

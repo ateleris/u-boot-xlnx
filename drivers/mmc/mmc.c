@@ -2972,7 +2972,6 @@ static int mmc_complete_init(struct mmc *mmc)
 {
 	int err = 0;
 
-	mmc->init_in_progress = 0;
 	if (mmc->op_cond_pending)
 		err = mmc_complete_op_cond(mmc);
 
@@ -2982,6 +2981,8 @@ static int mmc_complete_init(struct mmc *mmc)
 		mmc->has_init = 0;
 	else
 		mmc->has_init = 1;
+	
+	mmc->init_in_progress = 0;
 	return err;
 }
 
