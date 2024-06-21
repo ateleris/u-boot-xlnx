@@ -58,6 +58,21 @@ config BOOT_SCRIPT_OFFSET
 	default 0 if TARGET_XILINX_MBV
 	help
 	   Specifies distro boot script offset in NAND/QSPI/NOR flash.
+	   
+config ENCLUSTRA_EEPROM_MAC
+	bool "Enable support for reading MAC address from EEPROM"
+	help
+	  Enables MAC address readout from EEPROM
+
+config ENCLUSTRA_NANDMUX
+	bool "QSPI NAND multiplexer"
+	help
+	  Enables MIO multiplexer for Enclustra ZX modules
+
+config ENCLUSTRA_QSPI_FLASHMAP
+	bool "QSPI Flash Map"
+	help
+	  Includes device specific QSPI flash maps in the U-Boot environment
 
 config CMD_FRU
 	bool "FRU information for product"
